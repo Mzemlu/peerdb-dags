@@ -1,0 +1,29 @@
+Создать директорию на гите pg_bi_change_completed_status_transaction
+залить туда SQL:
+incremental_insert.sql
+
+Будут использоваться таблицы:
+ddxfitness_prod_v2.transactions_history
+ddxfitness_prod_v2.bi_change_completed_status_transaction
+
+
+запись в таблицы 
+ddxfitness_prod_v2.bi_change_completed_status_transaction  (создать таблицу на PeerDB)
+
+
+-- ddxfitness_prod_v2.bi_change_completed_status_transaction определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_change_completed_status_transaction
+(
+
+    `id` Int64,
+
+    `status` String,
+
+    `ns` String,
+
+    `ns_version_updated_at` DateTime
+)
+ENGINE = MergeTree
+ORDER BY id
+SETTINGS index_granularity = 8192;
