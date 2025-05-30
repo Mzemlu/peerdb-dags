@@ -1,1 +1,319 @@
+Создать директорию на гите pg_bi_moratorium
+залить туда SQL:
+full_load_bi_moratorium_new.sql
+bi_moratorium_trial.sql
 
+В full_load_bi_moratorium_new.sql Будут использоваться таблицы:
+ddxfitness_prod_v2.user_payment_plans_history
+ddxfitness_prod_v2.pg_clubs
+
+запись в таблицу
+ddxfitness_prod_v2.bi_moratorium  (создать таблицу на PeerDB)
+
+
+В bi_moratorium_trial.sql Будут использоваться таблицы:
+ddxfitness_prod_v2.user_payment_plans_history
+ddxfitness_prod_v2.pg_clubs
+
+запись в таблицу
+ddxfitness_prod_v2.bi_moratorium_trial (создать таблицу на PeerDB)
+
+
+-- ddxfitness_prod_v2.bi_moratorium определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_moratorium
+(
+
+    `cohort` Date,
+
+    `club_id` Int64,
+
+    `all_subs_due` UInt64,
+
+    `moratorium` UInt64,
+
+    `day1` UInt64,
+
+    `minus_day1` Int64,
+
+    `day2` UInt64,
+
+    `minus_day2` Int64,
+
+    `day3` UInt64,
+
+    `minus_day3` Int64,
+
+    `day4` UInt64,
+
+    `minus_day4` Int64,
+
+    `day5` UInt64,
+
+    `minus_day5` Int64,
+
+    `day6` UInt64,
+
+    `minus_day6` Int64,
+
+    `day7` UInt64,
+
+    `minus_day7` Int64,
+
+    `day8` UInt64,
+
+    `minus_day8` Int64,
+
+    `day9` UInt64,
+
+    `minus_day9` Int64,
+
+    `day10` UInt64,
+
+    `minus_day10` Int64,
+
+    `day11` UInt64,
+
+    `minus_day11` UInt64,
+
+    `churn` UInt64,
+
+    `minus_sum` Int64,
+
+    `current1` UInt64,
+
+    `freezed1` UInt64,
+
+    `ended1` UInt64,
+
+    `current2` UInt64,
+
+    `freezed2` UInt64,
+
+    `ended2` UInt64,
+
+    `current3` UInt64,
+
+    `freezed3` UInt64,
+
+    `ended3` UInt64,
+
+    `current4` UInt64,
+
+    `freezed4` UInt64,
+
+    `ended4` UInt64,
+
+    `current5` UInt64,
+
+    `freezed5` UInt64,
+
+    `ended5` UInt64,
+
+    `current6` UInt64,
+
+    `freezed6` UInt64,
+
+    `ended6` UInt64,
+
+    `current7` UInt64,
+
+    `freezed7` UInt64,
+
+    `ended7` UInt64,
+
+    `current8` UInt64,
+
+    `freezed8` UInt64,
+
+    `ended8` UInt64,
+
+    `current9` UInt64,
+
+    `freezed9` UInt64,
+
+    `ended9` UInt64,
+
+    `current10` UInt64,
+
+    `freezed10` UInt64,
+
+    `ended10` UInt64,
+
+    `current11` UInt64,
+
+    `freezed11` UInt64,
+
+    `ended11` UInt64,
+
+    `total_current` UInt64,
+
+    `total_freezed` UInt64,
+
+    `total_ended` UInt64,
+
+    `total_pending_after_10days` UInt64,
+
+    `auto` UInt64,
+
+    `self` UInt64,
+
+    `moratorium_check` Int64,
+
+    `total_check` Int64,
+
+    `club_name` String
+)
+ENGINE = MergeTree
+ORDER BY cohort
+SETTINGS index_granularity = 8192;
+
+
+-- ddxfitness_prod_v2.bi_moratorium_trial определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_moratorium_trial
+(
+
+    `cohort` Date,
+
+    `club_id` Int64,
+
+    `all_subs_due` UInt64,
+
+    `moratorium` UInt64,
+
+    `day1` UInt64,
+
+    `minus_day1` Int64,
+
+    `day2` UInt64,
+
+    `minus_day2` Int64,
+
+    `day3` UInt64,
+
+    `minus_day3` Int64,
+
+    `day4` UInt64,
+
+    `minus_day4` Int64,
+
+    `day5` UInt64,
+
+    `minus_day5` Int64,
+
+    `day6` UInt64,
+
+    `minus_day6` Int64,
+
+    `day7` UInt64,
+
+    `minus_day7` Int64,
+
+    `day8` UInt64,
+
+    `minus_day8` Int64,
+
+    `day9` UInt64,
+
+    `minus_day9` Int64,
+
+    `day10` UInt64,
+
+    `minus_day10` Int64,
+
+    `day11` UInt64,
+
+    `minus_day11` UInt64,
+
+    `churn` UInt64,
+
+    `minus_sum` Int64,
+
+    `current1` UInt64,
+
+    `freezed1` UInt64,
+
+    `ended1` UInt64,
+
+    `current2` UInt64,
+
+    `freezed2` UInt64,
+
+    `ended2` UInt64,
+
+    `current3` UInt64,
+
+    `freezed3` UInt64,
+
+    `ended3` UInt64,
+
+    `current4` UInt64,
+
+    `freezed4` UInt64,
+
+    `ended4` UInt64,
+
+    `current5` UInt64,
+
+    `freezed5` UInt64,
+
+    `ended5` UInt64,
+
+    `current6` UInt64,
+
+    `freezed6` UInt64,
+
+    `ended6` UInt64,
+
+    `current7` UInt64,
+
+    `freezed7` UInt64,
+
+    `ended7` UInt64,
+
+    `current8` UInt64,
+
+    `freezed8` UInt64,
+
+    `ended8` UInt64,
+
+    `current9` UInt64,
+
+    `freezed9` UInt64,
+
+    `ended9` UInt64,
+
+    `current10` UInt64,
+
+    `freezed10` UInt64,
+
+    `ended10` UInt64,
+
+    `current11` UInt64,
+
+    `freezed11` UInt64,
+
+    `ended11` UInt64,
+
+    `total_current` UInt64,
+
+    `total_freezed` UInt64,
+
+    `total_ended` UInt64,
+
+    `total_pending_after_10days` UInt64,
+
+    `auto` UInt64,
+
+    `self` UInt64,
+
+    `moratorium_check` Int64,
+
+    `total_check` Int64,
+
+    `club_name` String
+)
+ENGINE = MergeTree
+ORDER BY cohort
+SETTINGS index_granularity = 8192;
