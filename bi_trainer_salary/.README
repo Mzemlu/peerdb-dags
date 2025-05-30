@@ -1,0 +1,53 @@
+Создать директорию на гите pg_bi_trainer_salary
+залить туда SQL:
+insert_only_new_timetable_ids.sql
+
+Будут использоваться таблицы:
+ddxfitness_prod_v2.trainer_list_with_types_region (таблицы нет на PeerDB)
+ddxfitness_prod_v2.trainer_list_with_types_moscow (таблицы нет на PeerDB)
+ddxfitness_prod_v2.trainer_salary (таблицы нет на PeerDB)
+ddxfitness_prod_v2.pg_cities
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.pg_employees
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_group_training_time_tables
+ddxfitness_prod_v2.pg_group_trainings (данные не залиты на PeerDB)
+ddxfitness_prod_v2.pg_group_training_categories (данные не залиты на PeerDB)
+ddxfitness_prod_v2.pg_group_training_employees 
+
+запись в таблицу 
+ddxfitness_prod_v2.bi_trainer_salary (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.bi_trainer_salary определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_trainer_salary
+(
+
+    `timetable_id` Int64,
+
+    `training_name` String,
+
+    `club_name` String,
+
+    `city_name` String,
+
+    `category_name` String,
+
+    `trainer_type` Nullable(String),
+
+    `trainer_id` Int64,
+
+    `trainer_last_name` Nullable(String),
+
+    `trainer_name` String,
+
+    `start_time` DateTime64(6),
+
+    `duration` Int64,
+
+    `salary` Int32
+)
+ENGINE = MergeTree
+ORDER BY (start_time,
+ club_name)
+SETTINGS index_granularity = 8192;
