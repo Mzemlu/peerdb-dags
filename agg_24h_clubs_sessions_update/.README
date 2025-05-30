@@ -1,0 +1,37 @@
+Создать директорию на гите agg_24h_clubs_sessions
+залить туда SQL:
+agg_24h_incr_update.sql
+
+Будут использоваться таблицы:
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_employees
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.bi_visits_histories (пока что нет на PeerDB, проверить так ли будет перенесена)
+
+запись в таблицу
+ddxfitness_prod_v2.agg_24h_clubs_sessions  (создать таблицу на PeerDB)
+
+подтянуть все исторические данные можно из таблицы ddxfitness.agg_24h_clubs_sessions
+
+-- ddxfitness_prod_v2.agg_24h_clubs_sessions определение
+
+CREATE TABLE ddxfitness_prod_v2.agg_24h_clubs_sessions
+(
+
+    `check_time` DateTime64(3,
+ 'Europe/Moscow'),
+
+    `club_id` UInt32,
+
+    `club_name` String,
+
+    `sex` String,
+
+    `people_in_club` UInt32
+)
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(check_time)
+ORDER BY (club_id,
+ check_time,
+ sex)
+SETTINGS index_granularity = 8192;
