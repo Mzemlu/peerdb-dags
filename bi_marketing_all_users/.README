@@ -1,0 +1,122 @@
+Создать директорию на гите pg_bi_marketing_all_users
+залить туда SQL:
+bi_marketing_all_new.sql
+
+Будут использоваться таблицы:
+ddxfitness_prod_v2.pg_user_payment_plans
+ddxfitness_prod_v2.pg_payment_plans
+ddxfitness_prod_v2.pg_discounts
+ddxfitness_prod_v2.pg_discount_codes
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.pg_employees
+ddxfitness_prod_v2.pg_transaction_gates
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_cities
+ddxfitness_prod_v2.bi_completed_transactions
+ddxfitness_prod_v2.d_inflow_payment_plans
+ddxfitness_prod_v2.inflow_and_outflow_new (пока что нет на PeerDB, проверить так ли будет перенесена)
+
+запись в таблицу
+ddxfitness_prod_v2.bi_marketing_all_users  (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.bi_marketing_all_users определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_marketing_all_users
+(
+
+    `user_id` Int64,
+
+    `sub_id` Int64,
+
+    `payment_plan_id` Int64,
+
+    `subscription_name` String,
+
+    `subscription_type` String,
+
+    `is_new` String,
+
+    `is_resubbed` UInt8,
+
+    `is_new_per_inflow` UInt8,
+
+    `is_inflow` Int64,
+
+    `prev_sub_id` UInt64,
+
+    `prev_payment_plan_id` Int64,
+
+    `prev_payment_plan_name` String,
+
+    `phone` Nullable(String),
+
+    `email` String,
+
+    `birthday` Nullable(Date32),
+
+    `sex` Nullable(String),
+
+    `fitness_experience` Nullable(String),
+
+    `signed_date` DateTime64(6),
+
+    `start_date` Nullable(DateTime64(6)),
+
+    `payment_date` Nullable(DateTime64(6)),
+
+    `end_date` Nullable(DateTime64(6)),
+
+    `club_name` String,
+
+    `discount_code_id` Nullable(Int64),
+
+    `code` Nullable(String),
+
+    `discount_name` String,
+
+    `card_token_id` Bool,
+
+    `status` Nullable(String),
+
+    `join_fee` Nullable(Decimal(18,
+ 5)),
+
+    `membership_fee` Nullable(Decimal(18,
+ 5)),
+
+    `total_amount` Nullable(Decimal(18,
+ 5)),
+
+    `cancel_reason` String,
+
+    `gate_id` Int64,
+
+    `employee_id` Int64,
+
+    `employee_name` String,
+
+    `last_name` Nullable(String),
+
+    `gate_name` String,
+
+    `discount_amount` Decimal(18,
+ 5),
+
+    `discount_name_new` Nullable(String),
+
+    `discount_code_id_tr` Nullable(Int64),
+
+    `discount_name_tr` String,
+
+    `discount_id_tr` Nullable(Int64),
+
+    `code_tr` Nullable(String),
+
+    `city_name` String,
+
+    `updated_at` DateTime64(3)
+)
+ENGINE = MergeTree
+ORDER BY (club_name,
+ signed_date)
+SETTINGS index_granularity = 8192;
