@@ -1,0 +1,180 @@
+Будут использоваться таблицы:
+ddxfitness_prod_v2.bi_completed_transactions
+ddxfitness_prod_v2.d_inflow_payment_plans
+ddxfitness_prod_v2.video_progress_history
+ddxfitness_prod_v2.pg_user_payment_plans
+ddxfitness_prod_v2.pg_employees
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_payment_plans
+ddxfitness_prod_v2.pg_transaction_gates
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.pg_discounts
+ddxfitness_prod_v2.pg_video_progress
+ddxfitness_prod_v2.pg_videos
+ddxfitness_prod_v2.events_all (пока что нет на PeerDB, проверить будет ли перенос)
+ddxfitness_prod_v2.bi_adv_users (пока что нет на PeerDB, проверить будет ли перенос)
+
+запись в таблицы 
+ddxfitness_prod_v2.bi_action_users  (создать таблицу на PeerDB)
+ddxfitness_prod_v2.bi_video_progress_action (создать таблицу на PeerDB)
+
+
+-- ddxfitness_prod_v2.bi_action_users определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_action_users
+(
+
+    `if_employee` String,
+
+    `transaction_date` DateTime64(6,
+ 'Europe/Moscow'),
+
+    `transaction_id` Int64,
+
+    `signed_date` DateTime64(6,
+ 'Europe/Moscow'),
+
+    `end_date` Nullable(DateTime64(6,
+ 'Europe/Moscow')),
+
+    `cancel_date` Nullable(DateTime64(6,
+ 'Europe/Moscow')),
+
+    `cancel_reason` String,
+
+    `return_transaction` Int64,
+
+    `return_transaction_date` Nullable(DateTime64(6,
+ 'Europe/Moscow')),
+
+    `type` String,
+
+    `user_id` Int64,
+
+    `provider_id` Int64,
+
+    `payment_plan_id` Int64,
+
+    `payment_plan` String,
+
+    `user_payment_plan_id` Int64,
+
+    `club_name` String,
+
+    `total_amount` Decimal(18,
+ 5),
+
+    `discount_id` Int64,
+
+    `discount_name` String,
+
+    `current_status` String,
+
+    `gate_name` String,
+
+    `sex` String,
+
+    `birthday` Nullable(Date32),
+
+    `payment_plan_type` String,
+
+    `payment_type` String,
+
+    `video_progress_id` Int64,
+
+    `created_at` DateTime64(6),
+
+    `buy_flag` UInt8,
+
+    `diff_days` Nullable(Int64),
+
+    `user_payment_plan_id_main` Int64,
+
+    `user_payment_plan_name_main` String,
+
+    `discount_name_main` String,
+
+    `is_banner_user` String,
+
+    `last_banner_date` Date,
+
+    `is_trial_user` String,
+
+    `is_tracker_user` String
+)
+ENGINE = MergeTree
+ORDER BY (transaction_date,
+ payment_plan)
+SETTINGS index_granularity = 819;
+
+
+-- ddxfitness_prod_v2.bi_video_progress_action определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_video_progress_action
+(
+
+    `session_number` UInt64,
+
+    `id` Int64,
+
+    `title` String,
+
+    `type` String,
+
+    `is_free` UInt8,
+
+    `duration` Int32,
+
+    `video_id` Int64,
+
+    `user_id` Int64,
+
+    `qty_rows` UInt64,
+
+    `if_rewatch` UInt8,
+
+    `updated_at` Date,
+
+    `duration_by_qty_rows` UInt64,
+
+    `max_duration` Nullable(Int32),
+
+    `is_completed` UInt8,
+
+    `stars` Nullable(Int32),
+
+    `difficulty` Nullable(Int32),
+
+    `comment` Nullable(String),
+
+    `max_rewatch` UInt64,
+
+    `qty_rewatch_more_1` UInt64,
+
+    `user_payment_plan_id` Int64,
+
+    `payment_plan` String,
+
+    `start_date` Date,
+
+    `end_date` Date,
+
+    `gate_name` String,
+
+    `if_employee` String,
+
+    `discount_name` String,
+
+    `discount_name_main` String,
+
+    `is_banner_user` String,
+
+    `current_status` String,
+
+    `is_trial_user` String,
+
+    `is_tracker_user` String
+)
+ENGINE = MergeTree
+ORDER BY updated_at
+SETTINGS index_granularity = 8192;
