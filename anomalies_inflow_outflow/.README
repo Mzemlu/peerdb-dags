@@ -1,0 +1,5 @@
+Будут использоваться таблицы:
+ddxfitness_prod_v2.inflow_and_outflow_new (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.bi_metric_tree_by_month (пока что нет на PeerDB, проверить так ли будет перенесена)
+
+Записи в таблиц нет, Даг на алерт 
