@@ -16,7 +16,7 @@ default_args = {
 DAG_NAME = 'pg_agg_24h_clubs_sessions_update'
 # Запуск в 5-ю минуту каждого часа
 SCHEDULE = '5 * * * *'
-SCRIPT_PATH = '/opt/airflow/dags/sql_scripts/agg_24h_clubs_sessions/agg_24h_incr_update.sql'
+SCRIPT_PATH = '/opt/airflow/dags/sql_scripts/pg_agg_24h_clubs_sessions/agg_24h_incr_update.sql'
 
 with DAG(
     DAG_NAME,
