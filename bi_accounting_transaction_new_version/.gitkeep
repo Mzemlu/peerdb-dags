@@ -1,1 +1,80 @@
+Создать директорию на гите pg_bi_accounting_transaction_new_version
+залить туда SQL:
+incremental_insert.sql
 
+Будут использоваться таблицы:
+ddxfitness_prod_v2.pg_accounting_transactions
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.pg_transactions
+ddxfitness_prod_v2.pg_reciepts
+ddxfitness_prod_v2.pg_club_legal_infos
+ddxfitness_prod_v2.pg_clubs
+
+запись в таблицы 
+ddxfitness_prod_v2.bi_accounting_transaction_new_version  (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.bi_accounting_transaction_new_version определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_accounting_transaction_new_version
+(
+
+    `transaction_id` Int64,
+
+    `club_name` String,
+
+    `date` DateTime64(6),
+
+    `operation_name` Nullable(String),
+
+    `transaction_type` Nullable(String),
+
+    `user_id` Int64,
+
+    `name` Nullable(String),
+
+    `subscription_name` Nullable(String),
+
+    `join_fee` Nullable(Decimal(18,
+ 5)),
+
+    `join_fee_net` Nullable(Decimal(18,
+ 5)),
+
+    `membership_fee` Nullable(Decimal(18,
+ 5)),
+
+    `membership_fee_net` Nullable(Decimal(18,
+ 5)),
+
+    `vat` Nullable(String),
+
+    `product_name` Nullable(String),
+
+    `product_qty` Int32,
+
+    `product_price` Nullable(Decimal(18,
+ 5)),
+
+    `total_amount` Nullable(Decimal(18,
+ 5)),
+
+    `total_net` Nullable(Decimal(18,
+ 5)),
+
+    `vat_num` Nullable(String),
+
+    `balance` Nullable(Decimal(18,
+ 5)),
+
+    `receipt` Int64,
+
+    `cnt_receips` Int32,
+
+    `fiscal_status` Nullable(String)
+)
+ENGINE = MergeTree
+ORDER BY (club_name,
+ date,
+ transaction_id,
+ user_id)
+SETTINGS index_granularity = 8192;
