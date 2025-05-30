@@ -1,0 +1,34 @@
+Будут использоваться таблицы:
+ddxfitness_prod_v2.pg_card_swipe_histories
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.bi_swipe_history
+
+запись в таблицу
+ddxfitness_prod_v2.bi_swipe_history  (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.bi_swipe_history определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_swipe_history
+(
+
+    `id` Int64,
+
+    `event_date` DateTime('UTC'),
+
+    `event_type` String,
+
+    `sys_response` String,
+
+    `club_id` Int64,
+
+    `club_name` String,
+
+    `user_id` Nullable(Int64),
+
+    `is_success` UInt8
+)
+ENGINE = ReplacingMergeTree
+PARTITION BY toYYYYMM(event_date)
+ORDER BY (id,
+ event_date)
+SETTINGS index_granularity = 8192;
