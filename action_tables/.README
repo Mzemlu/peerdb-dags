@@ -1,3 +1,8 @@
+Создать директорию на гите pg_action_tables
+залить туда SQL:
+bi_action_users_updated.sql
+bi_video_progress_action_updated.sql
+
 Будут использоваться таблицы:
 ddxfitness_prod_v2.bi_completed_transactions
 ddxfitness_prod_v2.d_inflow_payment_plans
