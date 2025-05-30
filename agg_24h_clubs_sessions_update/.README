@@ -1,4 +1,4 @@
-Создать директорию на гите agg_24h_clubs_sessions
+Создать директорию на гите pg_agg_24h_clubs_sessions
 залить туда SQL:
 agg_24h_incr_update.sql
 
