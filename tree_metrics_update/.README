@@ -1,7 +1,5 @@
 Создать директорию на гите pg_tree_metrics_update
 залить туда SQL:
-
-2 months ago
 bi_load_factor_with_closed_clubs.sql	
 bi_metric_alt.sql	
 bi_metric_load_factor.sql
