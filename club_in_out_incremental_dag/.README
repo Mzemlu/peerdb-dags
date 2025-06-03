@@ -1,0 +1,10 @@
+В даге используются таблицы:
+ddxfitness_prod_v2.pg_visits_histories
+ddxfitness_prod.users	ddxfitness_prod_v2.pg_users
+ddxfitness_prod.clubs	ddxfitness_prod_v2.pg_clubs
+
+Создание таблиц, реализуется при работе самого дага:
+ddxfitness_prod_v2.club_data_raw
+ddxfitness_prod_v2.club_data_in
+ddxfitness_prod_v2.club_data_out
+ddxfitness_prod_v2.club_data_visits
