@@ -1,0 +1,49 @@
+Создать директорию на гите pg_visits_histories_update
+залить туда SQL:
+visits_histories_update.sql
+visits_histories_get_last_id.sql
+
+Будут использоваться таблицы:
+ddxfitness_prod_v2.pg_card_swipe_histories
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_users
+
+Необходимо создать таблицу для записи данных в неё
+Запись в:
+ddxfitness_prod_v2.bi_visits_histories
+
+
+-- ddxfitness_prod_v2.bi_visits_histories определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_visits_histories
+(
+
+    `id` Int64,
+
+    `user_id` Int64,
+
+    `user_name` String,
+
+    `last_name` String,
+
+    `email` String,
+
+    `sex` String,
+
+    `birthday` Nullable(Date32),
+
+    `club_id` Int64,
+
+    `club_name` String,
+
+    `event_date` DateTime64(6,
+ 'Europe/Moscow'),
+
+    `event_type` String
+)
+ENGINE = ReplacingMergeTree
+ORDER BY (event_date,
+ club_name,
+ user_id,
+ id)
+SETTINGS index_granularity = 8192;
