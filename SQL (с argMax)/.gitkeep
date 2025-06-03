@@ -1,1 +1,36 @@
+Лучше дополнительно проверить данные SQL-скрипты, т.к возможно проблемы могут быть не только с таблицами pg_
+но и с историческими
+сами Даги .py (если код не в самом Даге находится), можно использовать из основных веток. 
+
+Список всех используемых pg_ таблиц в текущих Дагах:
+
+pg_card_swipe_histories
+
+pg_cities
+
+pg_club_legal_infos
+
+pg_clubs
+
+pg_discount_codes
+
+pg_discounts
+
+pg_employees
+
+pg_group_training_categories
+
+pg_group_training_time_tables (необходимо применять argMax)
+
+pg_group_trainings
+
+pg_payment_plans
+
+pg_transaction_gates
+
+pg_transactions (необходимо применять argMax)
+
+pg_user_payment_plans (необходимо применять argMax)
+
+pg_users (необходимо применять argMax)
 
