@@ -22,8 +22,8 @@ with DAG(
     @task
     def create_table_if_not_exists():
         ch = ClickHouseHook(
-            clickhouse_conn_id="ddxfitness_prod_v2",
-            database="clickhouse_peerdb_prod"
+            clickhouse_conn_id="clickhouse_peerdb_prod",
+            database="ddxfitness_prod_v2"
         )
         create_sql = """
         CREATE TABLE IF NOT EXISTS ddxfitness_prod_v2.club_data_raw
@@ -53,8 +53,8 @@ with DAG(
     @task
     def incremental_load_lead_lag():
         ch = ClickHouseHook(
-            clickhouse_conn_id="ddxfitness_prod_v2",
-            database="clickhouse_peerdb_prod"
+            clickhouse_conn_id="clickhouse_peerdb_prod",
+            database="ddxfitness_prod_v2"
         )
         today = datetime.now().date()
         date_from = today - timedelta(days=INCREMENT_DAYS)
@@ -111,7 +111,7 @@ with DAG(
 
     @task
     def create_club_in_table():
-        ch = ClickHouseHook(clickhouse_conn_id="ddxfitness_prod_v2", database="clickhouse_peerdb_prod")
+        ch = ClickHouseHook(clickhouse_conn_id="clickhouse_peerdb_prod", database="ddxfitness_prod_v2")
         ch.execute("DROP TABLE IF EXISTS ddxfitness_prod_v2.club_data_in")
         ch.execute("""
         CREATE TABLE ddxfitness_prod_v2.club_data_in
@@ -146,7 +146,7 @@ with DAG(
 
     @task
     def create_club_out_table():
-        ch = ClickHouseHook(clickhouse_conn_id="ddxfitness_prod_v2", database="clickhouse_peerdb_prod")
+        ch = ClickHouseHook(clickhouse_conn_id="clickhouse_peerdb_prod", database="ddxfitness_prod_v2")
         ch.execute("DROP TABLE IF EXISTS ddxfitness_prod_v2.club_data_out")
         ch.execute("""
         CREATE TABLE ddxfitness_prod_v2.club_data_out
@@ -181,7 +181,7 @@ with DAG(
 
     @task
     def create_club_visits_table():
-        ch = ClickHouseHook(clickhouse_conn_id="ddxfitness_prod_v2", database="clickhouse_peerdb_prod")
+        ch = ClickHouseHook(clickhouse_conn_id="clickhouse_peerdb_prod", database="ddxfitness_prod_v2")
         ch.execute("DROP TABLE IF EXISTS ddxfitness_prod_v2.club_data_visits")
         ch.execute("""
         CREATE TABLE ddxfitness_prod_v2.club_data_visits
