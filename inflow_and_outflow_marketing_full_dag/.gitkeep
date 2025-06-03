@@ -1,1 +1,92 @@
+оздать директорию на гите pg_inflow_and_outflow_marketing
+залить туда SQL:
+full_replace_inflow_and_outflow_marketing.sql
 
+Будут использоваться таблицы:
+ddxfitness_prod_v2.inflow_and_outflow_new (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.bi_marketing_all_users (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.d_inflow_payment_plans
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.pg_user_payment_plans
+ddxfitness_prod_v2.pg_payment_plans
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_discount_codes
+
+запись в таблицу
+ddxfitness_prod_v2.inflow_and_outflow_marketing  (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.inflow_and_outflow_marketing определение
+
+CREATE TABLE ddxfitness_prod_v2.inflow_and_outflow_marketing
+(
+
+    `user_id` Int64,
+
+    `name` String,
+
+    `last_name` Nullable(String),
+
+    `phone` String,
+
+    `email` String,
+
+    `birthday` Nullable(String),
+
+    `sex` String,
+
+    `first_id` Int64,
+
+    `last_id` Int64,
+
+    `sport_experience` String,
+
+    `first_payment_plan_name` String,
+
+    `last_payment_plan_name` Nullable(String),
+
+    `discount_name` Nullable(String),
+
+    `discount_name_new` Nullable(String),
+
+    `code` Nullable(String),
+
+    `inflow_club_name` String,
+
+    `outflow_club_name` Nullable(String),
+
+    `status` String,
+
+    `cancel_reason` Nullable(String),
+
+    `is_new` String,
+
+    `start_date` Date32,
+
+    `start_training_date` Date32,
+
+    `end_date` Nullable(Date32),
+
+    `discount_amount` Decimal(18,
+ 5),
+
+    `membership_fee` Nullable(Decimal(18,
+ 5)),
+
+    `qty_plans` Int64,
+
+    `user_status` String,
+
+    `pp_attribute` UInt8,
+
+    `gate_name` String,
+
+    `employee_name` String,
+
+    `last_employee_name` Nullable(String),
+
+    `end_date_value` Nullable(Date)
+)
+ENGINE = MergeTree
+ORDER BY (start_date,
+ inflow_club_name)
+SETTINGS index_granularity = 8192;
