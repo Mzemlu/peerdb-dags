@@ -22,8 +22,8 @@ with DAG(
 
     def check_anomalies(**kwargs):
         clickhouse_hook = ClickHouseHook(
-            clickhouse_conn_id='ddxfitness_prod_v2',
-            database='clickhouse_peerdb_prod'
+            clickhouse_conn_id='clickhouse_peerdb_prod',
+            database='ddxfitness_prod_v2'
         )
 
         inflow_query = """
