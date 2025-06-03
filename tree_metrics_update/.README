@@ -1,0 +1,338 @@
+Создать директорию на гите pg_tree_metrics_update
+залить туда SQL:
+
+2 months ago
+bi_load_factor_with_closed_clubs.sql	
+bi_metric_alt.sql	
+bi_metric_load_factor.sql
+bi_metric_ltv_cac.sql
+bi_metric_tree_by_month.sql	
+bi_metric_tree_by_year.sql
+
+Будут использоваться таблицы для bi_load_factor_with_closed_clubs.sql:
+ddxfitness_prod_v2.d_day
+ddxfitness_prod_v2.inflow_and_outflow
+ddxfitness_prod_v2.active_users_by_clubs
+ddxfitness_prod_v2.pg_clubs
+
+Будут использоваться таблицы для bi_metric_alt.sql:
+ddxfitness_prod_v2.inflow_and_outflow_new
+
+Будут использоваться таблицы для bi_metric_load_factor.sql:
+ddxfitness_prod_v2.d_day
+ddxfitness_prod_v2.inflow_and_outflow_new
+ddxfitness_prod_v2.active_users_by_clubs
+ddxfitness_prod_v2.pg_clubs
+
+Будут использоваться таблицы для bi_metric_ltv_cac.sql:
+ddxfitness_prod_v2.d_day
+ddxfitness_prod_v2.inflow_and_outflow_new
+ddxfitness_prod_v2.active_users_by_clubs
+ddxfitness_prod_v2.all_expenses
+ddxfitness_prod_v2.pg_clubs
+
+Будут использоваться таблицы для bi_metric_tree_by_month.sql:
+ddxfitness_prod_v2.d_day
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.bi_metric_alt
+ddxfitness_prod_v2.bi_metric_load_factor
+ddxfitness_prod_v2.revenue
+ddxfitness_prod_v2.bi_metric_ltv_cac
+
+Будут использоваться таблицы для bi_metric_tree_by_year.sql:
+ddxfitness_prod_v2.d_day
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.bi_metric_tree_by_month
+
+
+Необходимо создать таблицы для записи данных в них
+📤bi_metric_alt.sql
+Запись в:
+ddxfitness_prod_v2.bi_metric_alt
+
+📤bi_metric_load_factor.sql
+Запись в:
+ddxfitness_prod_v2.bi_metric_load_factor
+
+📤bi_metric_ltv_cac.sql
+Запись в:
+ddxfitness_prod_v2.bi_metric_ltv_cac
+
+📤 bi_load_factor_with_closed_clubs.sql
+Запись в:
+ddxfitness_prod_v2.bi_load_factor_with_closed_clubs
+
+📤bi_metric_tree_by_month.sql
+Запись в:
+ddxfitness_prod_v2.bi_metric_tree_by_month
+
+📤bi_metric_tree_by_year.sql
+Запись в:
+ddxfitness_prod_v2.bi_metric_tree_by_year
+
+
+Код для создания таблиц на PeerDB:
+
+-- ddxfitness_prod_v2.bi_metric_alt определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_metric_alt
+(
+
+    `date` Date32,
+
+    `club_id` Int32,
+
+    `club_name` String,
+
+    `alt` Int32
+)
+ENGINE = MergeTree
+ORDER BY (date,
+ club_name)
+SETTINGS index_granularity = 8192;
+
+
+
+-- ddxfitness_prod_v2.bi_metric_load_factor определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_metric_load_factor
+(
+
+    `date` Date32,
+
+    `club_id` Int32,
+
+    `club_name` String,
+
+    `outflow` Int64,
+
+    `inflow` Int64,
+
+    `outflow_with_migration` Int64,
+
+    `inflow_with_migration` Int64,
+
+    `active_subscribes` Nullable(Decimal(9,
+ 2)),
+
+    `area_in_square_meters` Nullable(Decimal(9,
+ 2)),
+
+    `load_factor` Nullable(Decimal(9,
+ 2))
+)
+ENGINE = MergeTree
+ORDER BY (date,
+ club_name)
+SETTINGS index_granularity = 8192;
+
+
+-- ddxfitness_prod_v2.bi_metric_ltv_cac определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_metric_ltv_cac
+(
+
+    `date` Date32,
+
+    `club_id` Int32,
+
+    `club_name` String,
+
+    `open_date` Date32,
+
+    `acquisition_cost` Int64,
+
+    `club_ebitda` Int64,
+
+    `is_inflow` Int64,
+
+    `active_subscribers` Int64,
+
+    `cac` Nullable(Float64),
+
+    `ltv` Nullable(Float64),
+
+    `ratio_ltv_cac` Nullable(Float64)
+)
+ENGINE = MergeTree
+ORDER BY (date,
+ club_name)
+SETTINGS index_granularity = 8192;
+
+
+
+-- ddxfitness_prod_v2.bi_load_factor_with_closed_clubs определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_load_factor_with_closed_clubs
+(
+
+    `date` Date32,
+
+    `club_id` Int32,
+
+    `club_name` String,
+
+    `outflow` Int64,
+
+    `inflow` Int64,
+
+    `outflow_with_migration` Int64,
+
+    `inflow_with_migration` Int64,
+
+    `active_subscribes` Nullable(Decimal(9,
+ 2)),
+
+    `area_in_square_meters` Nullable(Decimal(9,
+ 2)),
+
+    `load_factor` Nullable(Decimal(9,
+ 2))
+)
+ENGINE = MergeTree
+ORDER BY (date,
+ club_name)
+SETTINGS index_granularity = 8192;
+
+
+-- ddxfitness_prod_v2.bi_metric_tree_by_month определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_metric_tree_by_month
+(
+
+    `year` String,
+
+    `date` Date,
+
+    `club_id` Int64,
+
+    `club_name` String,
+
+    `alt` Nullable(Int32),
+
+    `outflow` Int64,
+
+    `inflow` Int64,
+
+    `area_in_square_meters` Decimal(9,
+ 2),
+
+    `load_factor` Nullable(Decimal(9,
+ 2)),
+
+    `revenue` Nullable(Int64),
+
+    `acquisition_cost` Nullable(Int64),
+
+    `club_ebitda` Nullable(Int64),
+
+    `active_subscribers` Nullable(Int64),
+
+    `cac` Nullable(Float64),
+
+    `ltv` Nullable(Float64),
+
+    `arpu` Nullable(Float64),
+
+    `nsm_metric` Nullable(Float64)
+)
+ENGINE = MergeTree
+ORDER BY (date,
+ club_name,
+ year)
+SETTINGS index_granularity = 8192;
+
+
+-- ddxfitness_prod_v2.bi_metric_tree_by_year определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_metric_tree_by_year
+(
+
+    `date` Date,
+
+    `year` String,
+
+    `club_id` Int64,
+
+    `club_name` String,
+
+    `club_type` Nullable(String),
+
+    `tir` String,
+
+    `age` String,
+
+    `alt` Nullable(Int32),
+
+    `outflow` Int64,
+
+    `inflow` Int64,
+
+    `area_in_square_meters` Decimal(9,
+ 2),
+
+    `load_factor` Nullable(Decimal(9,
+ 2)),
+
+    `revenue` Nullable(Int64),
+
+    `acquisition_cost` Nullable(Int64),
+
+    `club_ebitda` Nullable(Int64),
+
+    `active_subscribers` Nullable(Int64),
+
+    `cac` Nullable(Float64),
+
+    `ltv` Nullable(Float64),
+
+    `arpu` Nullable(Float64),
+
+    `nsm_metric` Nullable(Float64),
+
+    `year_2` String,
+
+    `club_id_2` Int64,
+
+    `club_name_2` String,
+
+    `club_type_2` Nullable(String),
+
+    `tir_2` String,
+
+    `age_2` String,
+
+    `alt_2` Nullable(Int32),
+
+    `outflow_2` Int64,
+
+    `inflow_2` Int64,
+
+    `area_in_square_meters_2` Decimal(9,
+ 2),
+
+    `load_factor_2` Nullable(Decimal(9,
+ 2)),
+
+    `revenue_2` Nullable(Int64),
+
+    `acquisition_cost_2` Nullable(Int64),
+
+    `club_ebitda_2` Nullable(Int64),
+
+    `active_subscribers_2` Nullable(Int64),
+
+    `cac_2` Nullable(Float64),
+
+    `ltv_2` Nullable(Float64),
+
+    `arpu_2` Nullable(Float64),
+
+    `nsm_metric_2` Nullable(Float64)
+)
+ENGINE = MergeTree
+ORDER BY (year,
+ year_2,
+ club_name,
+ club_name_2)
+SETTINGS index_granularity = 8192;
