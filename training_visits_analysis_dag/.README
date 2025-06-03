@@ -1,0 +1,67 @@
+Будут использоваться таблицы:
+ddxfitness_prod_v2.club_data_visits (создаётся в Даге club_in_out_incremental_dag)
+ddxfitness_prod_v2.pg_user_payment_plans
+ddxfitness_prod_v2.bi_training_list (пока что нет на PeerDB, проверить так ли будет перенесена)
+
+запись в таблицу
+ddxfitness_prod_v2.training_visits_analysis  (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.training_visits_analysis определение
+
+CREATE TABLE ddxfitness_prod_v2.training_visits_analysis
+(
+
+    `booking_id` Int64,
+
+    `timetable_id` Int64,
+
+    `count_seats` Int16,
+
+    `club_zone` String,
+
+    `group_training_id` Int16,
+
+    `group_name` String,
+
+    `category_name` String,
+
+    `club_name` String,
+
+    `employee_id` Int64,
+
+    `start_time` DateTime64(6,
+ 'Europe/Moscow'),
+
+    `end_time` DateTime64(6,
+ 'Europe/Moscow'),
+
+    `last_name` String,
+
+    `name` String,
+
+    `user_id` Int64,
+
+    `phone` String,
+
+    `booking_status` String,
+
+    `booking_date` Nullable(Date32),
+
+    `updating_date` Nullable(Date32),
+
+    `is_visit` String,
+
+    `is_visit_no` UInt8,
+
+    `is_visit_waiting` UInt8,
+
+    `is_visit_cancel` UInt8,
+
+    `is_visit_yes` UInt8,
+
+    `is_visit_calc` String
+)
+ENGINE = MergeTree
+ORDER BY (booking_id,
+ user_id)
+SETTINGS index_granularity = 8192;
