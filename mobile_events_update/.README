@@ -1,0 +1,200 @@
+Дополнительно лучше проверить,т.к на текущий момент основной Даг не отрабатывает (в чём-то ошибка)
+Проверить логи: http://air.ddxfitness.ru:8080/dags/mobile_events_update/grid
+
+Создать директорию на гите pg_mobile_events_update
+залить туда SQL:
+update_mobile_events.sql
+update_mobile_stories.sql
+bi_mobile_users.sql
+tracker_users.sql
+
+Будут использоваться таблицы для update_mobile_events.sql:
+ddxfitness_prod_v2.bi_all_mobile_events (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.pg_user_payment_plans
+ddxfitness_prod_v2.pg_payment_plans
+ddxfitness_prod_v2.pg_users
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.d_inflow_payment_plans
+
+Будут использоваться таблицы для update_mobile_stories.sql:
+ddxfitness_prod_v2.bi_mobile_stories (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.bi_all_mobile_events (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.pg_story_slides
+
+Будут использоваться таблицы для bi_mobile_users.sql:
+ddxfitness_prod_v2.bi_all_mobile_events (пока что нет на PeerDB, проверить так ли будет перенесена)
+ddxfitness_prod_v2.bi_mobile_users (пока что нет на PeerDB, проверить так ли будет перенесена)
+
+Будут использоваться таблицы для tracker_users.sql:
+ddxfitness_prod_v2.bi_mobile_users
+ddxfitness_prod_v2.bi_adv_users
+mobile_db.postbacks_all	(проверить будет ли перенос в ddxfitness_prod_v2, если да - то изменить в коде на ddxfitness_prod_v2.postbacks_all)
+
+Необходимо создать таблицы для записи данных в них
+📤update_mobile_events.sql
+Запись в:
+ddxfitness_prod_v2.bi_all_mobile_events
+
+📤update_mobile_stories.sql
+Запись в:
+ddxfitness_prod_v2.bi_mobile_stories
+
+📤bi_mobile_users.sql
+Запись в:
+ddxfitness_prod_v2.bi_mobile_users
+
+📤 tracker_users.sql
+Запись в:
+ddxfitness_prod_v2.bi_adv_users
+
+
+-- ddxfitness_prod_v2.bi_all_mobile_events определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_all_mobile_events
+(
+
+    `device_id` String,
+
+    `user_id` Int64,
+
+    `event_date` Date,
+
+    `event_datetime` DateTime,
+
+    `receive_date` Date,
+
+    `os_name` String,
+
+    `event_name` String,
+
+    `event_params` String,
+
+    `sex` Nullable(String),
+
+    `name` String,
+
+    `last_name` Nullable(String),
+
+    `phone` Nullable(String),
+
+    `email` String,
+
+    `birthday` Nullable(Date),
+
+    `sport_experience` Nullable(String),
+
+    `home_club_id` Nullable(Int64),
+
+    `club_name` String,
+
+    `payment_plan_name` String,
+
+    `status` Nullable(String),
+
+    `start_date` Date,
+
+    `end_date` Date,
+
+    `user_payment_plan_id` Int64,
+
+    `updated_at` DateTime64(3)
+)
+ENGINE = ReplacingMergeTree
+PARTITION BY toYYYYMM(event_date)
+ORDER BY (event_name,
+ event_datetime,
+ device_id)
+SETTINGS index_granularity = 8192;
+
+-- ddxfitness_prod_v2.bi_mobile_stories определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_mobile_stories
+(
+
+    `device_id` String,
+
+    `event_date` Date,
+
+    `event_datetime` DateTime,
+
+    `receive_date` Date,
+
+    `os_name` String,
+
+    `event_name` String,
+
+    `story_id` Nullable(UInt32),
+
+    `slide_id` Nullable(UInt32),
+
+    `header` String,
+
+    `showtime` Nullable(UInt16),
+
+    `user_id` Int64,
+
+    `sex` Nullable(String),
+
+    `name` String,
+
+    `last_name` Nullable(String),
+
+    `phone` Nullable(String),
+
+    `email` String,
+
+    `birthday` Nullable(Date),
+
+    `sport_experience` Nullable(String),
+
+    `club_name` String,
+
+    `payment_plan_name` String,
+
+    `status` Nullable(String),
+
+    `user_payment_plan_id` Int64,
+
+    `updated_at` DateTime64(3)
+)
+ENGINE = MergeTree
+ORDER BY (event_date,
+ event_name,
+ device_id)
+SETTINGS index_granularity = 8192;
+
+
+-- ddxfitness_prod_v2.bi_mobile_users определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_mobile_users
+(
+
+    `device_id` String,
+
+    `user_id` Int64,
+
+    `min_event_date` Date,
+
+    `max_event_date` Date
+)
+ENGINE = MergeTree
+ORDER BY (min_event_date,
+ max_event_date)
+SETTINGS index_granularity = 8192;
+
+
+
+-- ddxfitness_prod_v2.bi_adv_users определение
+
+CREATE TABLE ddxfitness_prod_v2.bi_adv_users
+(
+
+    `click_date` Date,
+
+    `device_id` String,
+
+    `user_id` Int64
+)
+ENGINE = MergeTree
+ORDER BY user_id
+SETTINGS index_granularity = 8192;
