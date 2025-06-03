@@ -1,0 +1,39 @@
+Будут использоваться таблицы:
+ddxfitness_prod_v2.pg_user_payment_plans
+ddxfitness_prod_v2.pg_payment_plans_changing_clubs
+ddxfitness_prod_v2.pg_club_legal_infos
+ddxfitness_prod_v2.pg_clubs
+ddxfitness_prod_v2.pg_payment_plans
+ddxfitness_prod_v2.bi_completed_transactions
+
+запись в таблицу
+ddxfitness_prod_v2.revenue_data  (создать таблицу на PeerDB)
+
+-- ddxfitness_prod_v2.revenue_data определение
+
+CREATE TABLE ddxfitness_prod_v2.revenue_data
+(
+
+    `date` Date,
+
+    `payment_plan_id` UInt64,
+
+    `payment_name` String,
+
+    `club_id` UInt64,
+
+    `club_name` String,
+
+    `city_id` UInt64,
+
+    `club_type` String,
+
+    `open_date` Date,
+
+    `total_cost` Float64
+)
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(date)
+ORDER BY (date,
+ club_id)
+SETTINGS index_granularity = 8192;
